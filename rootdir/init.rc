@@ -322,6 +322,8 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
+import /init.superuser.rc
+
 on boot
     # basic network init
     ifup lo
@@ -408,6 +410,9 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
+
+    # Allow root access to apps and ADB by default
+    setprop persist.sys.root_access 3
 
     # Define default initial receive window size in segments.
     setprop net.tcp.default_init_rwnd 60
@@ -591,7 +596,7 @@ service installd /system/bin/installd
 
 service flash_recovery /system/bin/install-recovery.sh
     class main
-    seclabel u:r:install_recovery:s0
+    # seclabel u:r:install_recovery:s0
     oneshot
 
 service racoon /system/bin/racoon
