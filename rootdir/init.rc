@@ -322,8 +322,6 @@ on post-fs-data
     # Set indication (checked by vold) that we have finished this action
     #setprop vold.post_fs_data_done 1
 
-import /init.superuser.rc
-
 on boot
     # basic network init
     ifup lo
@@ -594,7 +592,7 @@ service installd /system/bin/installd
     class main
     socket installd stream 600 system system
 
-service flash_recovery /system/bin/install-recovery.sh
+service su-daemon /system/bin/start-su-daemon.sh
     class main
     # seclabel u:r:install_recovery:s0
     oneshot
